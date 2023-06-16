@@ -28,7 +28,7 @@ The plugin will allow you to use `*` as link references in your markdown
 documents where the next `[*]:` href defines the link. For example, you can
 write something like this:
 
-```md
+```markdown
 This is my text and [this is my link][*]. I'll define
 the url for that link under the paragraph.
 
