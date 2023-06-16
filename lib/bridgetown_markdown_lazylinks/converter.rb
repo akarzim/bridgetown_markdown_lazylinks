@@ -31,16 +31,22 @@ module BridgetownMarkdownLazylinks
     end
 
     def convert(content)
-      while content =~ LAZY_LINKS_REGEX
-        self.counter += 1
-        content.sub!(LAZY_LINKS_REGEX, "\\k<link>#{counter}\\k<url>#{counter}]:")
-      end
+      cache.getset(content) do
+        while content =~ LAZY_LINKS_REGEX
+          self.counter += 1
+          content.sub!(LAZY_LINKS_REGEX, "\\k<link>#{counter}\\k<url>#{counter}]:")
+        end
 
-      content
+        content
+      end
     end
 
     private
 
     attr_accessor :counter
+
+    def cache
+      @cache ||= Bridgetown::Cache.new("BridgetownMarkdownLazylinks")
+    end
   end
 end
