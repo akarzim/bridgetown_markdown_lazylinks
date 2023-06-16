@@ -21,7 +21,7 @@ module BridgetownMarkdownLazylinks
   class Converter < Bridgetown::Converter
     priority :high
 
-    LAZY_LINKS_REGEX = /(?<link>\[[^\]]+\]\s*\[)\*(?<url>\].*?^\[)\*\]\:/m.freeze
+    LAZY_LINKS_REGEX = %r!(?<link>\[[^\]]+\]\s*\[)\*(?<url>\].*?^\[)\*\]:!m.freeze
 
     def initialize(config = {})
       super

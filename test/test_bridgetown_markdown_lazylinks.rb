@@ -22,9 +22,14 @@ class TestBridgetownMarkdownLazylinks < Bridgetown::TestCase
     let(:content) { File.read(dest_dir("index.html")) }
 
     it "must convert lazylinks" do
-      assert_includes content, '<a href="http://brettterpstra.com">this is my link</a>'
-      assert_includes content, '<a href="https://gist.github.com/ttscoff/7059952">multiple</a>'
-      assert_includes content, '<a href="http://blog.bignerdranch.com/4044-rock-heads/">a paragraph</a>'
+      brett_link = '<a href="http://brettterpstra.com">this is my link</a>'
+      assert_includes content, brett_link
+
+      gist_link = '<a href="https://gist.github.com/ttscoff/7059952">multiple</a>'
+      assert_includes content, gist_link
+
+      blog_link = '<a href="http://blog.bignerdranch.com/4044-rock-heads/">a paragraph</a>'
+      assert_includes content, blog_link
     end
   end
 end
