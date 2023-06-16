@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-06-17
+
+- use of cache API to speed up site generation
+
 ## [0.1.0] - 2023-06-16
 
 - First version
 
 [Unreleased]: https://github.com/akarzim/bridgetown_markdown_lazylinks/tree/main
-[0.1.0]: https://github.com/akarzim/bridgetown_markdown_lazylinks/releases/tag/0.1.0
+[0.1.0]: https://github.com/akarzim/bridgetown_markdown_lazylinks/releases/tag/v0.1.0
+[0.2.0]: https://github.com/akarzim/bridgetown_markdown_lazylinks/releases/tag/v0.2.0
