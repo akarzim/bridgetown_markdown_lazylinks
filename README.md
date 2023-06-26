@@ -28,7 +28,8 @@ You can customize the lazylinks placeholder in this way to use `+` instead of `*
 
 ```ruby
 init :bridgetown_markdown_lazylinks do
-  placeholder "+"
+  basic_placeholder "-"
+  external_placeholder "@"
 end
 ```
 
@@ -51,6 +52,10 @@ and then just define them in order below it.
 [*]: https://gist.github.com/ttscoff/7059952
 [*]: http://blog.bignerdranch.com/4044-rock-heads/
 ```
+
+Since version 0.3.0, we can use `+` as an external link reference, in the same
+way as `*`, but this will add `target="_blank" rel="external"` to the resulting
+links.
 
 ## Testing
 

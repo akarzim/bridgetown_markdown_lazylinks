@@ -17,3 +17,13 @@ I can also use [a custom placeholder][-] acting like the [default star][-].
 
 [-]: https://example.org/custom
 [-]: https://example.org/default
+
+And now, [external links][+] can be flagged as external relation and target a
+blank new browser tab.
+
+[+]: https://example.org/external
+
+Of course, [external][@] lazylinks are [customizable][@] too!
+
+[@]: https://ext.example.org/default
+[@]: https://ext.example.org/custom

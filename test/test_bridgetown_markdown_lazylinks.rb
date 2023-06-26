@@ -22,7 +22,7 @@ class TestBridgetownMarkdownLazylinks < Bridgetown::TestCase
 
   let(:content) { File.read(dest_dir("index.html")) }
 
-  describe "BridgetownMarkdownLazylinks using the default placeholder" do
+  describe "BridgetownMarkdownLazylinks using the default placeholders" do
     let(:config) { preflight }
 
     it "must convert lazylinks" do
@@ -40,14 +40,28 @@ class TestBridgetownMarkdownLazylinks < Bridgetown::TestCase
 
       default_link = '<a href="https://example.org/default">default star</a>'
       assert_includes content, default_link
+
+      external_link = <<~TAG.squish
+        <a href="https://example.org/external" target="_blank" rel="external">external links</a>
+      TAG
+
+      assert_includes content, external_link
+
+      external_default_link = "https://ext.example.org/default"
+      refute_includes content, external_default_link
+
+      external_custom_link = '<a href="https://ext.example.org/custom">customizable</a>'
+      assert_includes content, external_custom_link
     end
   end
 
-  describe "BridgetownMarkdownLazylinks using a nil placeholder" do
+  # rubocop:disable Metrics/BlockLength
+  describe "BridgetownMarkdownLazylinks using nil placeholders" do
     let(:config) do
       preflight.merge(
         bridgetown_markdown_lazylinks: {
-          placeholder: nil,
+          basic_placeholder: nil,
+          external_placeholder: nil,
         }
       )
     end
@@ -67,14 +81,29 @@ class TestBridgetownMarkdownLazylinks < Bridgetown::TestCase
 
       default_link = '<a href="https://example.org/default">default star</a>'
       assert_includes content, default_link
+
+      external_link = <<~TAG.squish
+        <a href="https://example.org/external" target="_blank" rel="external">external links</a>
+      TAG
+
+      assert_includes content, external_link
+
+      external_default_link = "https://ext.example.org/default"
+      refute_includes content, external_default_link
+
+      external_custom_link = '<a href="https://ext.example.org/custom">customizable</a>'
+      assert_includes content, external_custom_link
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
-  describe "BridgetownMarkdownLazylinks using a custom placeholder" do
+  # rubocop:disable Metrics/BlockLength
+  describe "BridgetownMarkdownLazylinks using custom placeholders" do
     let(:config) do
       preflight.merge(
         bridgetown_markdown_lazylinks: {
-          placeholder: "-",
+          basic_placeholder: "-",
+          external_placeholder: "@",
         }
       )
     end
@@ -94,6 +123,22 @@ class TestBridgetownMarkdownLazylinks < Bridgetown::TestCase
 
       default_link = '<a href="https://example.org/default">default star</a>'
       assert_includes content, default_link
+
+      external_link = '<a href="https://example.org/external">external links</a>'
+      assert_includes content, external_link
+
+      external_default_link = <<~TAG.squish
+        <a href="https://ext.example.org/default" target="_blank" rel="external">external</a>
+      TAG
+
+      assert_includes content, external_default_link
+
+      external_custom_link = <<~TAG.squish
+        <a href="https://ext.example.org/custom" target="_blank" rel="external">customizable</a>
+      TAG
+
+      assert_includes content, external_custom_link
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

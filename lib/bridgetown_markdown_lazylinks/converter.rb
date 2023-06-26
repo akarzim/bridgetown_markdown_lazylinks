@@ -21,23 +21,36 @@ module BridgetownMarkdownLazylinks
   class Converter < Bridgetown::Converter
     priority :high
 
-    DEFAULT_PLACEHOLDER = :*
+    DEFAULT_BASIC_PLACEHOLDER = :*
+    DEFAULT_EXTERNAL_PLACEHOLDER = :+
 
     def initialize(config = {})
       super
 
       self.class.input @config["markdown_ext"].split(",")
       @counter = 0
-      @placeholder = config.bridgetown_markdown_lazylinks.placeholder || DEFAULT_PLACEHOLDER
+      @basic_placeholder = config.bridgetown_markdown_lazylinks.basic_placeholder
+      @basic_placeholder ||= DEFAULT_BASIC_PLACEHOLDER
+      @external_placeholder = config.bridgetown_markdown_lazylinks.external_placeholder
+      @external_placeholder ||= DEFAULT_EXTERNAL_PLACEHOLDER
     end
 
     def convert(content)
-      lazy_links_regex = %r!(\[[^\]]+\]\s*\[)#{placeholder}(\].*?^\[)#{placeholder}\]:!m.freeze
+      # rubocop:disable Layout/LineLength
+      basic_regex = %r!(\[[^\]]+\]\s*\[)#{basic_placeholder}(\].*?^\[)#{basic_placeholder}\]:!m.freeze
+      external_regex = %r!(\[[^\]]+\]\s*\[)#{external_placeholder}\](.*?^\[)#{external_placeholder}\]:!m.freeze
+      # rubocop:enable Layout/LineLength
 
       cache.getset(content) do
-        while content =~ lazy_links_regex
+        while content =~ basic_regex
           self.counter += 1
-          content.sub!(lazy_links_regex, "\\1#{counter}\\2#{counter}]:")
+          content.sub!(basic_regex, "\\1#{counter}\\2#{counter}]:")
+        end
+
+        while content =~ external_regex
+          self.counter += 1
+          attrs = '{:target="_blank"}{:rel="external"}'
+          content.sub!(external_regex, %(\\1#{counter}]#{attrs}\\2#{counter}]:))
         end
 
         content
@@ -48,8 +61,12 @@ module BridgetownMarkdownLazylinks
 
     attr_accessor :counter
 
-    def placeholder
-      Regexp.quote(@placeholder)
+    def basic_placeholder
+      Regexp.quote(@basic_placeholder)
+    end
+
+    def external_placeholder
+      Regexp.quote(@external_placeholder)
     end
 
     def cache
