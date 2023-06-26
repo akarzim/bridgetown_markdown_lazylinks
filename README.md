@@ -22,6 +22,17 @@ Or if there's a `bridgetown.automation.rb` automation script, you can run that i
 bin/bridgetown apply https://github.com/akarzim/bridgetown_markdown_lazylinks
 ```
 
+### Customization
+
+You can customize the lazylinks placeholder in this way to use `+` instead of `*`:
+
+```ruby
+init :bridgetown_markdown_lazylinks do
+  placeholder "+"
+end
+```
+
+
 ## Usage
 
 The plugin will allow you to use `*` as link references in your markdown

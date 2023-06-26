@@ -12,3 +12,8 @@ and then just define them in order below it.
 
 [*]: https://gist.github.com/ttscoff/7059952
 [*]: http://blog.bignerdranch.com/4044-rock-heads/
+
+I can also use [a custom placeholder][-] acting like the [default star][-].
+
+[-]: https://example.org/custom
+[-]: https://example.org/default

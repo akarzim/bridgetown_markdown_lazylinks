@@ -21,20 +21,23 @@ module BridgetownMarkdownLazylinks
   class Converter < Bridgetown::Converter
     priority :high
 
-    LAZY_LINKS_REGEX = %r!(?<link>\[[^\]]+\]\s*\[)\*(?<url>\].*?^\[)\*\]:!m.freeze
+    DEFAULT_PLACEHOLDER = :*
 
     def initialize(config = {})
       super
 
       self.class.input @config["markdown_ext"].split(",")
       @counter = 0
+      @placeholder = config.bridgetown_markdown_lazylinks.placeholder || DEFAULT_PLACEHOLDER
     end
 
     def convert(content)
+      lazy_links_regex = %r!(\[[^\]]+\]\s*\[)#{placeholder}(\].*?^\[)#{placeholder}\]:!m.freeze
+
       cache.getset(content) do
-        while content =~ LAZY_LINKS_REGEX
+        while content =~ lazy_links_regex
           self.counter += 1
-          content.sub!(LAZY_LINKS_REGEX, "\\k<link>#{counter}\\k<url>#{counter}]:")
+          content.sub!(lazy_links_regex, "\\1#{counter}\\2#{counter}]:")
         end
 
         content
@@ -44,6 +47,10 @@ module BridgetownMarkdownLazylinks
     private
 
     attr_accessor :counter
+
+    def placeholder
+      Regexp.quote(@placeholder)
+    end
 
     def cache
       @cache ||= Bridgetown::Cache.new("BridgetownMarkdownLazylinks")
