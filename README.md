@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Moved to [Codeberg](https://codeberg.org/akarzim/bridgetown_markdown_lazylinks)
+
 # Markdown Lazylinks plugin for Bridgetown
 
 A Bridgetown plugin to add support for lazylinks in markdown documents.
